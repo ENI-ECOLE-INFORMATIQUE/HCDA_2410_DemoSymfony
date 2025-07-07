@@ -13,7 +13,8 @@
     <p>une page de Test</p>
     {# Créer une variable ! #}
     {% set name="toto" %}
-    <h2>{{ name }}</h2>
+    <h2>{{ name | upper}}</h2>
+    <h2>{{ name | length}}</h2>
 
     {#  Créer un Objet #}
     {% set book = {
@@ -28,5 +29,15 @@
         <div>{{ key }} : {{ val }}</div>
         {% endfor %}
     </div>
+
+    {# Création d'un tableau #}
+    {% set colors=["orange","brown","turquoise","blue"] %}
+    <p>Nombre de couleurs : {{ colors | length }}</p>
+    <p>{{ colors | join(' / ') }}</p>
+    {% for color in colors %}
+        <div style="background-color:{{ color }}">{{ loop.index }} {{ color }}</div>
+    {% endfor %}
+
+    <p>{{ "+1 year"|date('Y') }}</p>
 </div>
 {% endblock %}
