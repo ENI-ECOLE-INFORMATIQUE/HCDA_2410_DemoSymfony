@@ -15,6 +15,9 @@ final class CourseController extends AbstractController
     #[Route('/', name: 'list')]
     public function list(CourseRepository $courseRepository): Response
     {
+        //Ici pas la meilleure pratique car on utilise le repository au lieu d'utiliser un Service.
+
+
         //$courses = $courseRepository -> findAll();
         //$courses = $courseRepository -> findBy([], ['name' => 'DESC'],5);
        // $courses = $courseRepository -> findBy([], ['name' => 'DESC']);
