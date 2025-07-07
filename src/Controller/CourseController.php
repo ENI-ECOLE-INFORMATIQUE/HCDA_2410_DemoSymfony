@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 #[Route('/cours', name: 'app_cours_')]
@@ -22,8 +23,9 @@ final class CourseController extends AbstractController
     }
 
     #[Route('/ajouter', name: 'create', methods: ['GET','POST'])]
-    public function create(): Response
+    public function create(Request $request): Response
     {
+        dump($request);
         return $this->render('course/create.html.twig');
     }
 
