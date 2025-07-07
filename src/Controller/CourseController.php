@@ -20,4 +20,16 @@ final class CourseController extends AbstractController
         //TODO: Rechercher le cours dans la BDD en fonction de son ID.
         return $this->render('course/show.html.twig');
     }
+
+    #[Route('/ajouter', name: 'create', methods: ['GET','POST'])]
+    public function create(): Response
+    {
+        return $this->render('course/create.html.twig');
+    }
+
+    #[Route('/{id}/modifier', name: 'edit', methods: ['GET','POST'], requirements: ['id'=>'\d+'])]
+    public function edit(): Response
+    {
+        return $this->render('course/edit.html.twig');
+    }
 }
