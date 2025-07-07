@@ -19,7 +19,14 @@ final class MainController extends AbstractController
     #[Route('/test', name: 'app_main_test')]
     public function test(): Response
     {
+        $serie=[
+            "title"=>"<h1>Games of Thrones</h1>",
+            "year"=>2000,
+            "monScript"=>"<script>alert('hello');</script>",
+        ];
         return $this->render('main/test.html.twig', [
+            'mySerie'=>$serie,
+            "autreVar"=>414242
         ]);
     }
 }

@@ -39,5 +39,11 @@
     {% endfor %}
 
     <p>{{ "+1 year"|date('Y') }}</p>
+    <h3>Affichage des variables du contoleur</h3>
+    <p>{{ mySerie.title }} - {{ autreVar }}</p>
+    <p>{{ mySerie.monScript }}</p>
+
+    <p>{{ mySerie.monScript | raw}}</p>
+    <p>{{ mySerie.title | raw}}</p>
 </div>
 {% endblock %}
