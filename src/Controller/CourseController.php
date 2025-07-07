@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,16 +13,24 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CourseController extends AbstractController
 {
     #[Route('/', name: 'list')]
-    public function list(): Response
+    public function list(CourseRepository $courseRepository): Response
     {
-        return $this->render('course/list.html.twig');
+        $courses = $courseRepository -> findAll();
+        return $this->render('course/list.html.twig',[
+            'courses' => $courses
+        ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'],requirements: ['id'=>'\d+'])]
-    public function show(): Response
+    public function show(int $id,CourseRepository $courseRepository): Response
     {
         //TODO: Rechercher le cours dans la BDD en fonction de son ID.
-        return $this->render('course/show.html.twig');
+        $course = $courseRepository->find($id);
+        if(!$course){
+            throw $this->createNotFoundException('cours introuvable');
+        }
+        return $this->render('course/show.html.twig',
+            ['course'=>$course]);
     }
 
     #[Route('/ajouter', name: 'create', methods: ['GET','POST'])]
