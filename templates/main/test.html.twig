@@ -11,5 +11,22 @@
 <div class="example-wrapper">
     <h1>TEST ✅</h1>
     <p>une page de Test</p>
+    {# Créer une variable ! #}
+    {% set name="toto" %}
+    <h2>{{ name }}</h2>
+
+    {#  Créer un Objet #}
+    {% set book = {
+        title: 'Symfony',
+        year: 2000,
+        author:'John Doe'
+    }
+    %}
+    <h3>{{ book.author }}</h3>
+    <div>
+        {% for key,val in book %}
+        <div>{{ key }} : {{ val }}</div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
