@@ -9,6 +9,7 @@
                 <th scope="col">Durée (jours)</th>
                 <th scope="col">Date de création</th>
                 <th scope="col">Catégorie</th>
+                <th scope="col">Formateurs</th>
                 <th scope="col">Publié</th>
                 <th scope="col"></th>
             </tr>
@@ -20,6 +21,7 @@
                 <td>{{ course.duration }}</td>
                 <td>{{ course.dateCreated |date('d/m/Y') }}</td>
                 <td>{{ course.category ? course.category.name : '?' }}</td>
+                <td>{{ course.trainers|length }}</td>
                 <td>{{ course.published ? "X":""}}</td>
                 <td>
                     <a href="{{ path('app_cours_show',{'id':course.id}) }}" title="Détail du cours">Détail</a>
@@ -27,7 +29,7 @@
                 </td>
             </tr>
                 {% else %}
-                <tr><td colspan="6">Aucune donnée dans la base.</td></tr>
+                <tr><td colspan="7">Aucune donnée dans la base.</td></tr>
         {% endfor %}
         </tbody>
     </table>
