@@ -4,11 +4,12 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Course;
+use App\Entity\Trainer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class AppFixtures extends Fixture implements DependentFixtureInterface
+class CourseFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -32,6 +33,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $course->setDateModified(\DateTimeImmutable::createFromMutable($dateCreated));
             $course->setPublished(false);
             $course->setCategory($this->getReference('category'.mt_rand(1,2),Category::class));
+            $course->addTrainer($this->getReference('trainer'.mt_rand(1,20),Trainer::class));
             $manager->persist($course);
 
         }
@@ -41,6 +43,6 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
     }
 
     public function getDependencies(): array{
-        return [CategoryFixtures::class];
+        return [CategoryFixtures::class, TrainerFixtures::class];
     }
 }
