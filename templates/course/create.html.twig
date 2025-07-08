@@ -4,13 +4,14 @@
     <h1>Créer un cours</h1>
     <div>
         {# Afficher le formulaire #}
-        {{ form(courseForm) }}
+        {#{{ form(courseForm) }}#}
 
         {#2ieme façon#}
-        {#{{ form_start(courseForm) }}
+       {# {% form_theme courseForm 'bootstrap_5_layout.html.twig' %}#}
+        {{ form_start(courseForm) }}
         {{ form_widget(courseForm) }}
-        <button type="submit">Ajouter</button>
-        {{ form_end(courseForm) }}#}
+        <button class="btn btn-primary" type="submit">Ajouter</button>
+        {{ form_end(courseForm) }}
     </div>
 {% endblock %}
 
