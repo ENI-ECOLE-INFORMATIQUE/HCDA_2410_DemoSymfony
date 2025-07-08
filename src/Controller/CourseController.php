@@ -78,14 +78,18 @@ final class CourseController extends AbstractController
     }
 
     #[Route('/{id}/supprimer', name: 'delete', methods: ['GET'], requirements: ['id'=>'\d+'])]
-    public function delete(Course $course, EntityManagerInterface $em): Response
+    public function delete(Course $course,Request $request, EntityManagerInterface $em): Response
     {
-        try{
-            $em->remove($course);
-            $em->flush();
-            $this->addFlash('success','Le cours a été supprimé.');
-        }catch (\Exception $e){
-            $this->addFlash('danger','Le cours n\'a pu être supprimé.');
+        if($this->isCsrfTokenValid('delete-'.$course->getId(), $request->get('_token'))) {
+            try {
+                $em->remove($course);
+                $em->flush();
+                $this->addFlash('success', 'Le cours a été supprimé.');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Le cours n\'a pu être supprimé.');
+            }
+        }else{
+            $this->addFlash('danger', 'Le cours n\'a pu être supprimé: Pb Token');
         }
         return $this->redirectToRoute('app_cours_list');
     }
