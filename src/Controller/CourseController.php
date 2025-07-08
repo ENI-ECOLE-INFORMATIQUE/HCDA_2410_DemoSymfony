@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Form\CourseType;
 use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,8 +43,12 @@ final class CourseController extends AbstractController
     #[Route('/ajouter', name: 'create', methods: ['GET','POST'])]
     public function create(Request $request): Response
     {
-        dump($request);
-        return $this->render('course/create.html.twig');
+        //dump($request);
+        $course = new Course();
+        $courseForm = $this->createForm(CourseType::class, $course);
+        return $this->render('course/create.html.twig',[
+            'courseForm' => $courseForm
+        ]);
     }
 
     #[Route('/{id}/modifier', name: 'edit', methods: ['GET','POST'], requirements: ['id'=>'\d+'])]
