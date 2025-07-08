@@ -5,6 +5,12 @@
     <div>
         {# Afficher le formulaire #}
         {{ form(courseForm) }}
+
+        {#2ieme façon#}
+        {#{{ form_start(courseForm) }}
+        {{ form_widget(courseForm) }}
+        <button type="submit">Ajouter</button>
+        {{ form_end(courseForm) }}#}
     </div>
 {% endblock %}
 
