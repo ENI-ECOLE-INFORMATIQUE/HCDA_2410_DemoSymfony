@@ -41,11 +41,19 @@ final class CourseController extends AbstractController
     }
 
     #[Route('/ajouter', name: 'create', methods: ['GET','POST'])]
-    public function create(Request $request): Response
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
         //dump($request);
         $course = new Course();
         $courseForm = $this->createForm(CourseType::class, $course);
+        $courseForm->handleRequest($request);
+        if($courseForm->isSubmitted() && $courseForm->isValid()){
+            $em->persist($course);
+            $em->flush();
+
+            $this->addFlash('success','Le cours a été ajouté');
+            return $this->redirectToRoute('app_cours_show', ['id'=>$course->getId()]);
+        }
         return $this->render('course/create.html.twig',[
             'courseForm' => $courseForm
         ]);

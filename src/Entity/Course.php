@@ -33,6 +33,10 @@ class Course
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateModified = null;
 
+    public function __construct(){
+        $this->dateCreated = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
