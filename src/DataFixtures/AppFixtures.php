@@ -2,11 +2,13 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Course;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -29,10 +31,16 @@ class AppFixtures extends Fixture
             $dateCreated = $faker->dateTimeBetween($course->getDateCreated()->format('Y-m-d'),'now');
             $course->setDateModified(\DateTimeImmutable::createFromMutable($dateCreated));
             $course->setPublished(false);
+            $course->setCategory($this->getReference('category'.mt_rand(1,2),Category::class));
             $manager->persist($course);
 
         }
 
+
         $manager->flush();
+    }
+
+    public function getDependencies(): array{
+        return [CategoryFixtures::class];
     }
 }
