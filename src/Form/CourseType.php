@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Course;
 
 use App\Entity\Trainer;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -37,7 +38,12 @@ class CourseType extends AbstractType
                 'required'=>false,
                 'placeholder'=>'Choisir un formateur',
                 'label'=>'Formateurs',
-                'multiple'=>true
+                'multiple'=>true,
+                'query_builder'=>function (EntityRepository $er) {
+                return $er->createQueryBuilder('f')
+                    ->orderBy('f.firstname','ASC')
+                    ->addOrderBy('f.lastname','ASC');
+                }
             ])
             ->add('dateCreated', null, [
                 'widget' => 'single_text',
