@@ -76,6 +76,19 @@ final class CourseController extends AbstractController
         }
         return $this->render('course/edit.html.twig',['courseForm'=>$courseForm]);
     }
+
+    #[Route('/{id}/supprimer', name: 'delete', methods: ['GET'], requirements: ['id'=>'\d+'])]
+    public function delete(Course $course, EntityManagerInterface $em): Response
+    {
+        try{
+            $em->remove($course);
+            $em->flush();
+            $this->addFlash('success','Le cours a été supprimé.');
+        }catch (\Exception $e){
+            $this->addFlash('danger','Le cours n\'a pu être supprimé.');
+        }
+        return $this->redirectToRoute('app_cours_list');
+    }
     #[Route('/demo', name: 'demo', methods: ['GET'])]
     public function demo(Request $request,EntityManagerInterface $em): Response{
         //Créer une instance de l'entité Cours
