@@ -16,15 +16,27 @@ class CourseRepository extends ServiceEntityRepository
         parent::__construct($registry, Course::class);
     }
 
-    public function findLastCourses():array{
+    public function findLastCourses(int $duration=2):array{
         //En DQL
         //!!!!!!!!!!!!! On pense Objet
-        $entityManager = $this->getEntityManager();;
+        /*$entityManager = $this->getEntityManager();;
         $dql = "SELECT c FROM App\Entity\Course c 
         WHERE c.duration > 2
         ORDER BY c.dateCreated DESC";
         $query = $entityManager->createQuery($dql);
         $query->setMaxResults(5);
+        return $query->getResult();*/
+
+        //En QueryBuilder
+        $queryBuilder = $this->createQueryBuilder('c')
+        ->addSelect('ca')
+        ->leftJoin('c.category','ca')
+        ->andWhere('c.duration > :duration')
+        ->addOrderBy('c.dateCreated','DESC')
+        ->setParameter('duration',$duration)
+        ->setMaxResults(5);
+
+        $query = $queryBuilder->getQuery();
         return $query->getResult();
     }
     //    /**
