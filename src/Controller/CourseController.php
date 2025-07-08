@@ -60,9 +60,21 @@ final class CourseController extends AbstractController
     }
 
     #[Route('/{id}/modifier', name: 'edit', methods: ['GET','POST'], requirements: ['id'=>'\d+'])]
-    public function edit(): Response
+    public function edit(Course $course,Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('course/edit.html.twig');
+        //Ici $course passé en paramètre permet de faire la liaison avec l'id de course.
+        //C'est Symfony qui fait le job.
+
+        $courseForm = $this->createForm(CourseType::class, $course);
+        $courseForm->handleRequest($request);
+        if($courseForm->isSubmitted() && $courseForm->isValid()){
+            //Pas besoin de persist car l'objet est déjà associé.
+            $course->setDateModified(new \DateTimeImmutable());
+            $em->flush();
+            $this->addFlash('success','Le cours a été modifié');
+            return $this->redirectToRoute('app_cours_show', ['id'=>$course->getId()]);
+        }
+        return $this->render('course/edit.html.twig',['courseForm'=>$courseForm]);
     }
     #[Route('/demo', name: 'demo', methods: ['GET'])]
     public function demo(Request $request,EntityManagerInterface $em): Response{
