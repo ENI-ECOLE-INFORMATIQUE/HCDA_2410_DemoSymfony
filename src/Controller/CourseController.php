@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\Course;
 use App\Form\CourseType;
 use App\Repository\CourseRepository;
+use App\Repository\TrainerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 #[Route('/cours', name: 'app_cours_')]
 final class CourseController extends AbstractController
 {
@@ -27,8 +30,16 @@ final class CourseController extends AbstractController
             'courses' => $courses
         ]);
     }
+    #[Route('/{id}/formateurs', name: 'trainers',requirements: ['id'=>'\d+'],methods: ['GET'])]
+    #[isGranted('ROLE_PLANNER')]
+    public function trainers(Course $course,TrainerRepository $trainerRepository): Response{
+        return $this->render('course/trainers.html.twig',[
+            'course' => $course,
+            'trainers'=>$course->getTrainers()
+        ]);
+    }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'],requirements: ['id'=>'\d+'])]
+    #[Route('/{id}', name: 'show' ,requirements: ['id'=>'\d+'],methods: ['GET'])]
     public function show(int $id,CourseRepository $courseRepository): Response
     {
         //TODO: Rechercher le cours dans la BDD en fonction de son ID.

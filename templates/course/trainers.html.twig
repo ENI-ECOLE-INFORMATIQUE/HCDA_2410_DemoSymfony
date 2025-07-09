@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Formateurs du cours</h1>
+    <table class="table-sm table-bordered">
+         {% for trainer in trainers %}
+            <tr>
+                <td>{{ trainer.firstname~' '~trainer.lastname}}</td>
+            </tr>
+                {% else %}
+                <tr><td>Aucun formateur associé au cours.</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block title %}Les formateurs du cours | {{ parent() }}{% endblock %}
