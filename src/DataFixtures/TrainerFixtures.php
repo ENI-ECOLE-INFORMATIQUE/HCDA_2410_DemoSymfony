@@ -13,7 +13,7 @@ class TrainerFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
         $faker = \Faker\Factory::create('fr_FR');
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i <= 20; $i++) {
             $trainer = new Trainer();
             $trainer->setFirstName($faker->firstName());
             $trainer->setLastName($faker->lastName());
