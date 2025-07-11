@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +16,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[UniqueEntity(fields: ['name'], message: 'Cette categorie existe déjà')]
+#[ApiResource(operations:[
+    new Get(normalizationContext: ['groups' => ['getCategoriesFull']]),
+    new GetCollection(normalizationContext: ['groups' => ['getCategories']]),
+    new Post()
+])]
+    //normalizationContext: ['groups' => ['getCategories']])]
 class Category
 {
     #[ORM\Id]

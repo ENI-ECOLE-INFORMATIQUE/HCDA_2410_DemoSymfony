@@ -294,3 +294,7 @@ fabric.properties
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm,phpunit,intellij+all,eclipse,visualstudiocode
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
